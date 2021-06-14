@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">AA-1º-RickandMorty</string>
+    <string name="bt_buscar">Buscar</string>
+    <string name="bt_atras">Atras</string>
+    <string name="character_name">Nombre</string>
+    <string name="Character_status">Estado</string>
+    <string name="Character_specie">Especie</string>
+    <string name="Character_type">Tipo</string>
+    <string name="Character_gender">Genero</string>
+    <string name="Character_origin">Origen</string>
+    <string name="Character_episode">Episodio</string>
+</resources>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".person.listPerson.view.ListPersonActivity"
+    >
+    <LinearLayout
+        android:id="@+id/list_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="100"
+        android:orientation="vertical"
+        android:padding="5dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="90"
+            android:background="@color/black"
+            >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerMainId"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:background="#888888"
+            >
+
+            <Button
+                android:id="@+id/searchmainbutton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/bt_buscar" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/load_gif"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/fondo"
+            android:background="@color/black"
+
+        />
+    </LinearLayout>
+
+</LinearLayout>
