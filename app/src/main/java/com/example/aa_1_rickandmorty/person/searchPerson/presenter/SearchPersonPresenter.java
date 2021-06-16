@@ -5,6 +5,7 @@ import com.example.aa_1_rickandmorty.person.searchPerson.contract.SearchPersonCo
 import com.example.aa_1_rickandmorty.person.searchPerson.model.SearchPersonModel;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class SearchPersonPresenter implements SearchPersonContract.Presenter {
 
@@ -16,10 +17,9 @@ public class SearchPersonPresenter implements SearchPersonContract.Presenter {
         this.searchPersonModel = new SearchPersonModel();
     }
 
-
     @Override
-    public void getPersons(Person person) {
-        searchPersonModel.getPersonsWS(new SearchPersonContract.Model.OnSearchPersonListener() {
+    public void getPersons(Map conectdata) {
+        searchPersonModel.getPersonsWS(conectdata, new SearchPersonContract.Model.OnSearchPersonListener() {
             @Override
             public void onFinished(ArrayList<Person> persons) {
                 view.success(persons);
@@ -29,6 +29,6 @@ public class SearchPersonPresenter implements SearchPersonContract.Presenter {
             public void onFailure(String error) {
                 view.error("ERROR: "+error);
             }
-        }, person);
+        });
     }
 }
