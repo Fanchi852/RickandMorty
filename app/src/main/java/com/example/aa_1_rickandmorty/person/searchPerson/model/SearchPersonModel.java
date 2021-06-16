@@ -1,16 +1,25 @@
 package com.example.aa_1_rickandmorty.person.searchPerson.model;
 
+import android.content.Context;
 import android.os.AsyncTask;
+
+import androidx.annotation.Nullable;
 
 import com.example.aa_1_rickandmorty.beans.Container;
 import com.example.aa_1_rickandmorty.beans.Person;
 import com.example.aa_1_rickandmorty.person.searchPerson.contract.SearchPersonContract;
+import com.example.aa_1_rickandmorty.retrofit.ApiClient;
 import com.example.aa_1_rickandmorty.utils.Post;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SearchPersonModel implements SearchPersonContract.Model {
 
@@ -22,49 +31,24 @@ public class SearchPersonModel implements SearchPersonContract.Model {
     OnSearchPersonListener onSearchPersonListener;
 
     @Override
-    public void getPersonsWS(OnSearchPersonListener onSearchPersonListener, Person person) {
+    public void getPersonsWS(Map conectdata, OnSearchPersonListener onSearchPersonListener) {
 
-        container.getInfo().setNext("vacio");
-        this.onSearchPersonListener = onSearchPersonListener;
-        SearchPersonModel.PersonAsynTask pt = new SearchPersonModel.PersonAsynTask();
-        pt.execute();
-        personsaux = person;
-
-    }
-
-    class PersonAsynTask extends AsyncTask<String, Integer, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            Boolean res = false;
-            Post post = new Post();
-            try {
-                URL = basicURL+"?name="+personsaux.getName();
-                JSONObject jscontainer = post.getServerDataGetObject(URL);
-                Gson gson = new Gson();
-                container = gson.fromJson(jscontainer.toString(), Container.class);
-                persons.clear();
-                persons.addAll(container.getResults());
-
-                if (container.getResults() != null && persons.size() > 0) {
-                    res = true;
+        ApiClient apiClient = new ApiClient((Context)conectdata.get("context"));
+        Call<Container> request = apiClient.getPersonByName((Integer) conectdata.get("page"), (String) conectdata.get("name"));
+        request.enqueue(new Callback<Container>() {
+            @Override
+            public void onResponse(@Nullable Call<Container> call, @Nullable Response<Container> response) {
+                if(response == null || response.body() == null || response.body().getResults() == null || response.body().getResults().isEmpty()){
+                    onSearchPersonListener.onFailure("Fin de la lista");
+                }else{
+                    onSearchPersonListener.onFinished(response.body().getResults());
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return res;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean res) {
-
-            if(res){
-                onSearchPersonListener.onFinished(persons);
-            }else{
-                onSearchPersonListener.onFailure("La busqueda no ha podido realizarse");
             }
 
-        }
+            @Override
+            public void onFailure(@Nullable Call<Container> call, @Nullable Throwable throwable) {
+                onSearchPersonListener.onFailure(throwable.getMessage());
+            }
+        });
     }
-
 }

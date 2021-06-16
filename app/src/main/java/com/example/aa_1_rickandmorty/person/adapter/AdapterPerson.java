@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.transition.Explode;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aa_1_rickandmorty.R;
 import com.example.aa_1_rickandmorty.beans.Person;
+import com.example.aa_1_rickandmorty.person.listPerson.view.ListPersonActivity;
 import com.example.aa_1_rickandmorty.person.viewPerson.view.ViewPersonActivity;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -26,11 +28,18 @@ public class AdapterPerson extends RecyclerView.Adapter<AdapterPerson.ViewHolder
 
     private ArrayList<Person> persons;
     private Activity activity;
+    private Integer positionAUX;
+    private Integer lastpagueloaded = ListPersonActivity.INITIAL_PAGE;
+    private Boolean loadindata = false;
 
 
     public AdapterPerson(ArrayList<Person> person,Activity activity) {
         this.persons = person;
         this.activity = activity;
+    }
+
+    public void addPersons(ArrayList<Person> persons){
+        this.persons.addAll(persons);
     }
 
     @Override
@@ -42,6 +51,9 @@ public class AdapterPerson extends RecyclerView.Adapter<AdapterPerson.ViewHolder
     @Override
     public void onBindViewHolder(AdapterPerson.ViewHolderCharacter holder, int position) {
         holder.asingPerson(persons.get(position));
+        System.out.println("estamos en el onbindviewholder getItemCount: " + getItemCount());
+        System.out.println("estamos en el onbindviewholder position: " + position);
+        positionAUX = position;
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,9 +73,32 @@ public class AdapterPerson extends RecyclerView.Adapter<AdapterPerson.ViewHolder
         });
     }
 
+    public Integer getLastpagueloaded() {
+        return lastpagueloaded;
+    }
+
+    public void setLastpagueloaded(Integer lastpagueloaded) {
+        this.loadindata = true;
+        this.lastpagueloaded = lastpagueloaded;
+    }
+
+    public Integer getPositionLastLoad(){
+        return positionAUX;
+    }
+
     @Override
     public int getItemCount() {
         return persons.size();
+    }
+
+    public boolean isLoading() {
+        return this.loadindata;
+    }
+
+    public void setLoadingData(boolean loading) {
+        Log.i("informaccion de mierda","ententamos entrar el set: " + this.loadindata);
+        this.loadindata = loading;
+        Log.i("informaccion de mierda","ententamos saliendo el set: " + this.loadindata);
     }
 
     public class ViewHolderCharacter extends RecyclerView.ViewHolder {

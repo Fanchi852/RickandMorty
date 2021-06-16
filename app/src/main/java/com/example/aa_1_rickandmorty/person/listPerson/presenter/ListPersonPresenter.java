@@ -1,10 +1,13 @@
 package com.example.aa_1_rickandmorty.person.listPerson.presenter;
 
+import android.content.Context;
+
 import com.example.aa_1_rickandmorty.beans.Person;
 import com.example.aa_1_rickandmorty.person.listPerson.contract.ListPersonContract;
 import com.example.aa_1_rickandmorty.person.listPerson.model.ListPersonModel;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ListPersonPresenter implements ListPersonContract.Presenter {
 
@@ -17,9 +20,9 @@ public class ListPersonPresenter implements ListPersonContract.Presenter {
     }
 
     @Override
-    public void getPersons() {
+    public void getPersons(Map conectdata) {
 
-        listPersonModel.getPersonsWS(new ListPersonContract.Model.OnListPersonListener() {
+        listPersonModel.getPersonsWS(conectdata, new ListPersonContract.Model.OnListPersonListener() {
             @Override
             public void onFinished(ArrayList<Person> persons) {
                 view.success(persons);

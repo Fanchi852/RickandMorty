@@ -1,8 +1,11 @@
 package com.example.aa_1_rickandmorty.person.listPerson.contract;
 
+import android.content.Context;
+
 import com.example.aa_1_rickandmorty.beans.Person;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public interface ListPersonContract {
 
@@ -12,11 +15,11 @@ public interface ListPersonContract {
     }
 
     interface Presenter{
-        void getPersons();
+        void getPersons(Map conectdata);
     }
 
     interface Model{
-        void getPersonsWS(OnListPersonListener onListPersonListener);
+        void getPersonsWS(Map conectdata,OnListPersonListener onListPersonListener);
         interface OnListPersonListener {
             void onFinished(ArrayList<Person> persons);
             void onFailure(String Error);
